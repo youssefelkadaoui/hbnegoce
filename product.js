@@ -317,6 +317,49 @@ try {
     if (selectedQty < 99) { selectedQty++; qtyValue.textContent = selectedQty; }
   });
   addToCartBtn.addEventListener('click', addToCartFromPage);
+
+  // Inject dynamic Product JSON-LD into <head> for rich results
+  try {
+    const productJson = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      image: allImages,
+      description: (product.desc || '').slice(0, 300),
+      sku: product.sku || String(product.id),
+      mpn: product.mpn || undefined,
+      brand: { "@type": "Brand", name: product.brand },
+      offers: {
+        "@type": "Offer",
+        url: window.location.href,
+        priceCurrency: "MAD",
+        price: (product.price !== undefined ? String(product.price) : "0"),
+        availability: (product.inStock === false) ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+        itemCondition: "https://schema.org/NewCondition"
+      }
+    };
+
+    if (product.rating || product.aggregateRating) {
+      const agg = product.aggregateRating || (product.rating ? { ratingValue: String(product.rating), reviewCount: String(product.reviewCount || 0) } : null);
+      if (agg) productJson.aggregateRating = Object.assign({ "@type": "AggregateRating" }, agg);
+    }
+
+    if (Array.isArray(product.reviews) && product.reviews.length) {
+      productJson.review = product.reviews.map(r => ({
+        "@type": "Review",
+        author: r.author || r.name || 'عميل',
+        datePublished: r.datePublished || undefined,
+        reviewBody: r.reviewBody || r.text || '',
+        reviewRating: r.rating ? { "@type": "Rating", ratingValue: String(r.rating), bestRating: r.bestRating || '5', worstRating: r.worstRating || '1' } : undefined
+      }));
+    }
+
+    const s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.textContent = JSON.stringify(productJson);
+    document.head.appendChild(s);
+    console.log('product.js: injected Product JSON-LD');
+  } catch (e) { console.error('product.js: failed to inject Product JSON-LD', e); }
 } catch (e) {
   document.getElementById('productContent').innerHTML = '<div style="text-align:center;padding:60px 0;color:var(--text-muted);"><i class="fas fa-exclamation-triangle" style="font-size:2rem;margin-bottom:12px;display:block;"></i><p>تعذر تحميل المنتج</p><a href="index.html#products" class="btn-primary" style="margin-top:16px;display:inline-flex;">العودة للمنتجات</a></div>';
 }
