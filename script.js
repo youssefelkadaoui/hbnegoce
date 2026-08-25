@@ -327,3 +327,4 @@ if (waFloat) setTimeout(() => waFloat.classList.add('show'), 1200);
 
 renderProducts();
 saveCart();
+
