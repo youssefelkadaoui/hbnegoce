@@ -27,6 +27,52 @@
   <!-- End Meta Pixel Code -->
   </head>
   <body>
+    <!-- قسم المنتجات المدمج (باستخدام كود العرض الثابت) -->
+    <section class="featured-products">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">الأكثر شعبية</span>
+          <h2>ساعات مختارة لك</h2>
+        </div>
+        <div class="products-grid">
+          <!-- كرت منتج 1 -->
+          <article class="product-card">
+            <div class="product-media">
+              <img src="https://picsum.photos/seed/saiko/400/400" alt="سايكو سوبرماрин" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-brand">سايكو</div>
+              <h3 class="product-title">سايكو سوبرماリン</h3>
+              <p class="product-desc">ساعة غوص احترافية</p>
+              <div class="product-footer">
+                <div class="product-prices">
+                  <span class="product-price">5,000 درهم</span>
+                </div>
+              </div>
+            </div>
+          </article>
+          <!-- انتهاء كرت المنتج -->
+          <!-- كرت منتج 2 (مثال) -->
+          <article class="product-card">
+            <div class="product-media">
+              <img src="https://picsum.photos/seed/rog/400/400" alt="رولكس أويستير" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-brand">رولكس</div>
+              <h3 class="product-title">رولكس أويستير بيرليفال</h3>
+              <p class="product-desc">كلاسيكية لا تضاهى</p>
+              <div class="product-footer">
+                <div class="product-prices">
+                  <span class="product-price">15,000 درهم</span>
+                </div>
+              </div>
+            </div>
+          </article>
+          <!-- انتهاء كرت المنتج 2 -->
+        </div>
+      </div>
+    </section>
+    
     <div class="video-bg-container">
       <video class="video-bg" autoplay loop muted playsinline preload="auto" poster="bg-poster.png">
         <source src="vidio.mp4" type="video/mp4" />
@@ -220,5 +266,29 @@
 
     <script src="data.js"></script>
     <script src="script.js"></script>
+
+    <!-- بدء أكواد Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics-compat.js"></script>
+    <script type="module">
+      import { initializeApp } from "firebase/app";
+      import { getAnalytics } from "firebase/analytics";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDZPV7EDQXp920I0ypMCH0cMX8RPhIf9Bk",
+        authDomain: "hbnegoce-20977.firebaseapp.com",
+        databaseURL: "https://hbnegoce-20977-default-rtdb.firebaseio.com",
+        projectId: "hbnegoce-20977",
+        storageBucket: "hbnegoce-20977.firebasestorage.app",
+        messagingSenderId: "965623113192",
+        appId: "1:965623113192:web:e883a369ef439718cd705d",
+        measurementId: "G-79S3MD9R7N"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
+    <!-- ending Firebase codes -->
+
   </body>
 </html>
