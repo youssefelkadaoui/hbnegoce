@@ -32,6 +32,20 @@ let toastTimeout;
 let selectedQty = 1;
 let selectedVariantIndex = 0;
 
+window.trackFbEvent = function(eventName, params = {}, dedupeMs = 5000) {
+  try {
+    if (typeof window._fbqFired !== 'object') window._fbqFired = {};
+    const idPart = (params.content_ids && params.content_ids.join(',')) || (params.contents && params.contents.map(c => c.id).join(',')) || String(params.value || '');
+    const key = `${eventName}::${idPart}`;
+    const now = Date.now();
+    if (window._fbqFired[key] && (now - window._fbqFired[key] < dedupeMs)) return;
+    window._fbqFired[key] = now;
+    if (typeof fbq === 'function') {
+      try { fbq('track', eventName, params); } catch (e) { /* ignore */ }
+    }
+  } catch (e) { /* ignore */ }
+};
+
 function showToast(message) {
   toastMsg.textContent = message;
   toast.classList.add('show');
@@ -200,6 +214,16 @@ checkoutForm.addEventListener('submit', (e) => {
   document.getElementById('formProducts').value = items;
   document.getElementById('formTotal').value = fmtPrice(total) + ' درهم';
 
+  if (typeof window.trackFbEvent === 'function') {
+    window.trackFbEvent('Purchase', {
+      value: total,
+      currency: 'MAD',
+      content_name: cart.map(i => i.name).join(', '),
+      content_ids: cart.map(i => String(i.id)),
+      contents: cart.map(i => ({ id: String(i.id), quantity: i.qty }))
+    });
+  }
+
   checkoutForm.submit();
   showToast('تم إرسال الطلب');
   cart = [];
@@ -217,6 +241,17 @@ if (!product) {
 } else {
 try {
   document.title = `HB.negoce | ${product.name}`;
+
+  if (typeof window.trackFbEvent === 'function') {
+    window.trackFbEvent('ViewContent', {
+      value: product.price,
+      currency: 'MAD',
+      content_name: product.name,
+      content_ids: [String(product.id)],
+      content_type: 'product',
+      contents: [{ id: String(product.id), quantity: 1 }]
+    });
+  }
   const allImages = product.images && product.images.length ? product.images : [product.image];
   const variants = product.variants || [{ index: 0, name: '', image: allImages[0] }];
 
