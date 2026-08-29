@@ -429,3 +429,4 @@ const waFloat = document.getElementById('waFloat');
 if (waFloat) setTimeout(() => waFloat.classList.add('show'), 1200);
 
 saveCart();
+
