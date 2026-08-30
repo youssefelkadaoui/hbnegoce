@@ -32,20 +32,6 @@ let toastTimeout;
 let selectedQty = 1;
 let selectedVariantIndex = 0;
 
-window.trackFbEvent = function(eventName, params = {}, dedupeMs = 5000) {
-  try {
-    if (typeof window._fbqFired !== 'object') window._fbqFired = {};
-    const idPart = (params.content_ids && params.content_ids.join(',')) || (params.contents && params.contents.map(c => c.id).join(',')) || String(params.value || '');
-    const key = `${eventName}::${idPart}`;
-    const now = Date.now();
-    if (window._fbqFired[key] && (now - window._fbqFired[key] < dedupeMs)) return;
-    window._fbqFired[key] = now;
-    if (typeof fbq === 'function') {
-      try { fbq('track', eventName, params); } catch (e) { /* ignore */ }
-    }
-  } catch (e) { /* ignore */ }
-};
-
 function showToast(message) {
   toastMsg.textContent = message;
   toast.classList.add('show');
@@ -160,18 +146,6 @@ function addToCartFromPage() {
     saveCart();
     console.log('addToCartFromPage: cart after add', cart);
   } catch (e) { console.error('addToCartFromPage error', e); }
-  if (typeof window.trackFbEvent === 'function') {
-    try {
-      window.trackFbEvent('AddToCart', {
-        value: product.price * selectedQty,
-        currency: 'MAD',
-        content_name: product.name,
-        content_ids: [String(product.id)],
-        content_type: 'product',
-        contents: [{ id: String(product.id), quantity: selectedQty }]
-      });
-    } catch (e) { /* ignore */ }
-  }
   btn.classList.add('added');
   btn.innerHTML = '<i class="fas fa-check"></i> تمت الإضافة!';
   setTimeout(() => {
@@ -214,15 +188,13 @@ checkoutForm.addEventListener('submit', (e) => {
   document.getElementById('formProducts').value = items;
   document.getElementById('formTotal').value = fmtPrice(total) + ' درهم';
 
-  if (typeof window.trackFbEvent === 'function') {
-    window.trackFbEvent('Purchase', {
-      value: total,
-      currency: 'MAD',
-      content_name: cart.map(i => i.name).join(', '),
-      content_ids: cart.map(i => String(i.id)),
-      contents: cart.map(i => ({ id: String(i.id), quantity: i.qty }))
-    });
-  }
+  window.trackMetaEvent('Lead', {
+    value: total,
+    currency: 'MAD',
+    content_ids: cart.map(item => String(item.id)),
+    content_type: 'product',
+    contents: cart.map(item => ({ id: String(item.id), quantity: item.qty }))
+  });
 
   checkoutForm.submit();
   showToast('تم إرسال الطلب');
@@ -240,18 +212,15 @@ if (!product) {
   setTimeout(() => { window.location.href = 'index.html#products'; }, 2500);
 } else {
 try {
-  document.title = `HB.negoce | ${product.name}`;
+  window.trackMetaEvent('ViewContent', {
+    content_name: product.name,
+    content_ids: [String(product.id)],
+    content_type: 'product',
+    value: product.price,
+    currency: 'MAD'
+  });
 
-  if (typeof window.trackFbEvent === 'function') {
-    window.trackFbEvent('ViewContent', {
-      value: product.price,
-      currency: 'MAD',
-      content_name: product.name,
-      content_ids: [String(product.id)],
-      content_type: 'product',
-      contents: [{ id: String(product.id), quantity: 1 }]
-    });
-  }
+  document.title = `HB.negoce | ${product.name}`;
   const allImages = product.images && product.images.length ? product.images : [product.image];
   const variants = product.variants || [{ index: 0, name: '', image: allImages[0] }];
 
@@ -429,4 +398,3 @@ const waFloat = document.getElementById('waFloat');
 if (waFloat) setTimeout(() => waFloat.classList.add('show'), 1200);
 
 saveCart();
-
