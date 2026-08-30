@@ -7,6 +7,28 @@ function fmtPrice(n) {
   try { return n.toLocaleString('ar'); } catch (e) { return String(n); }
 }
 
+const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycbyJHi3EXEUG6JaMoSp-_RmgAMzNTLEzwGXrE675h9JLaXtpxVS_7Xbg0I4C1cOOGH0X0A/exec';
+
+function sendOrderToGoogleSheets(order) {
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = googleSheetsEndpoint;
+  form.target = 'googleSheetsSubmitFrame';
+  form.style.display = 'none';
+
+  Object.entries(order).forEach(([name, value]) => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+  setTimeout(() => form.remove(), 1000);
+}
+
 const cartItems = document.getElementById('cartItems');
 const cartCount = document.getElementById('cartCount');
 const cartSubtotal = document.getElementById('cartSubtotal');
@@ -186,6 +208,14 @@ checkoutForm.addEventListener('submit', (e) => {
   document.getElementById('formSubject').value = `طلب جديد من ${name}`;
   document.getElementById('formProducts').value = items;
   document.getElementById('formTotal').value = fmtPrice(total) + ' درهم';
+
+  sendOrderToGoogleSheets({
+    name,
+    phone,
+    address,
+    products: items,
+    total: fmtPrice(total) + ' درهم'
+  });
 
   window.trackMetaEvent('Lead', {
     value: total,
