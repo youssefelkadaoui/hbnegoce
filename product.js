@@ -7,26 +7,22 @@ function fmtPrice(n) {
   try { return n.toLocaleString('ar'); } catch (e) { return String(n); }
 }
 
-const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycbxle6IBrpel6Jhn06ixeEXvZHB_fAyKM3s94G-2WOst0jthazApFpsORBCKdfRcaidv/exec';
+const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycbwmoTV2oyEIPbs1vmjB6HqUvIANmTYo5n17Ujh8TMDtCbQWDKvTnDraXEgc6C0lhLLm/exec';
 
 function sendOrderToGoogleSheets(order) {
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = googleSheetsEndpoint;
-  form.target = 'googleSheetsSubmitFrame';
-  form.style.display = 'none';
-
-  Object.entries(order).forEach(([name, value]) => {
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
+  return fetch(googleSheetsEndpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order)
+  }).then(async (response) => {
+    const text = await response.text();
+    let result = {};
+    try { result = text ? JSON.parse(text) : {}; } catch (e) { result = {}; }
+    if (!response.ok || result.success === false) {
+      throw new Error(result.message || 'Request failed');
+    }
+    return result;
   });
-
-  document.body.appendChild(form);
-  form.submit();
-  setTimeout(() => form.remove(), 1000);
 }
 
 const cartItems = document.getElementById('cartItems');
@@ -217,12 +213,12 @@ checkoutForm.addEventListener('submit', async (e) => {
   const items = cart.map(item => `- ${item.name} ${item.variant ? '(رقم ' + item.variant + ')' : ''} × ${item.qty} = ${fmtPrice(item.price * item.qty)} درهم`).join('\n');
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const totalText = fmtPrice(total) + ' درهم';
+
   const payload = {
-    name,
+    fullName: name,
     phone,
     address,
-    products: items,
-    total: totalText
+    orderSummary: `${items}\nالإجمالي: ${totalText}`
   };
 
   document.getElementById('formSubject').value = `طلب جديد من ${name}`;
@@ -230,13 +226,12 @@ checkoutForm.addEventListener('submit', async (e) => {
   document.getElementById('formTotal').value = totalText;
 
   try {
-    await fetch(googleSheetsEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }).catch(() => {});
+    const result = await sendOrderToGoogleSheets(payload);
+    console.log('Google Sheets result:', result);
   } catch (error) {
-    console.warn('Google Apps Script failed, continuing with FormSubmit fallback:', error);
+    console.warn('Google Apps Script failed:', error);
+    showToast('حدث خطأ أثناء إرسال الطلب');
+    return;
   }
 
   window.trackMetaEvent('Lead', {
@@ -247,7 +242,6 @@ checkoutForm.addEventListener('submit', async (e) => {
     contents: cart.map(item => ({ id: String(item.id), quantity: item.qty }))
   });
 
-  checkoutForm.submit();
   showToast('تم إرسال الطلب بنجاح');
   cart = [];
   saveCart();
