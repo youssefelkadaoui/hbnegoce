@@ -13,8 +13,8 @@ const firebaseConfig = {
   projectId: 'hbnegoce-20977',
   storageBucket: 'hbnegoce-20977.firebasestorage.app',
   messagingSenderId: '965623113192',
-  appId: '1:965623113192:web:bd95e7f385532cc3cd705d',
-  measurementId: 'G-BQB5YL9050'
+  appId: '1:965623113192:web:e883a369ef439718cd705d',
+  measurementId: 'G-79S3MD9R7N'
 };
 
 // Reuse the existing app if this module is ever imported more than once.
