@@ -202,40 +202,42 @@ checkoutForm.addEventListener('submit', async (e) => {
 
   const name = document.getElementById('checkoutName').value.trim();
   const phone = document.getElementById('checkoutPhone').value.trim();
-  const city = document.getElementById('checkoutCity').value.trim();
   const address = document.getElementById('checkoutAddress').value.trim();
 
-  if (!name || !phone || !city || !address) {
+  if (!cart.length) {
+    showToast('سلة الطلب فارغة');
+    return;
+  }
+
+  if (!name || !phone || !address) {
     showToast('يرجى تعبئة جميع الحقول المطلوبة');
     return;
   }
 
   const items = cart.map(item => `- ${item.name} ${item.variant ? '(رقم ' + item.variant + ')' : ''} × ${item.qty} = ${fmtPrice(item.price * item.qty)} درهم`).join('\n');
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const totalText = fmtPrice(total) + ' درهم';
   const payload = {
     name,
     phone,
-    city,
     address,
     products: items,
-    total: fmtPrice(total) + ' درهم'
+    total: totalText
   };
+
+  document.getElementById('formSubject').value = `طلب جديد من ${name}`;
+  document.getElementById('formProducts').value = items;
+  document.getElementById('formTotal').value = totalText;
 
   try {
     await fetch('https://script.google.com/macros/s/AKfycbyJHi3EXEUG6JaMoSp-_RmgAMzNTLEzwGXrE675h9JLaXtpxVS_7Xbg0I4C1cOOGH0X0A/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    });
+    }).catch(() => {});
   } catch (error) {
-    console.error('Google Apps Script request failed:', error);
+    console.warn('Google Apps Script failed, continuing with FormSubmit fallback:', error);
   }
-
-  document.getElementById('formSubject').value = `طلب جديد من ${name}`;
-  document.getElementById('formProducts').value = items;
-  document.getElementById('formTotal').value = fmtPrice(total) + ' درهم';
-
-  sendOrderToGoogleSheets(payload);
 
   window.trackMetaEvent('Lead', {
     value: total,
@@ -246,7 +248,7 @@ checkoutForm.addEventListener('submit', async (e) => {
   });
 
   checkoutForm.submit();
-  showToast('تم إرسال الطلب');
+  showToast('تم إرسال الطلب بنجاح');
   cart = [];
   saveCart();
   closeCheckoutModal();
