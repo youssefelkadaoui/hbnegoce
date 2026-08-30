@@ -1,76 +1,136 @@
 ```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+  >
 
   <title>HB.negoce | تفاصيل المنتج</title>
 
-  <meta name="description" content="تعرّف على ساعات HB.negoce الفاخرة في المغرب: صور، مواصفات، أسعار وخدمة توصيل إلى جميع المدن." />
-  <meta name="robots" content="index, follow" />
+  <meta
+    name="description"
+    content="تعرّف على ساعات HB.negoce الفاخرة في المغرب: صور، مواصفات، أسعار وخدمة توصيل إلى جميع المدن."
+  >
 
-  <meta property="og:type" content="product" />
+  <meta
+    name="robots"
+    content="index, follow"
+  >
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta
+    property="og:type"
+    content="product"
+  >
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="product.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 
-  <!-- Meta Pixel Code -->
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="product.css"
+  >
+
+
+  <!-- =====================================================
+       META PIXEL
+       ===================================================== -->
+
   <script>
-  !function(f,b,e,v,n,t,s)
-  {
-    if(f.fbq)return;
-    n=f.fbq=function(){
-      n.callMethod ?
-      n.callMethod.apply(n,arguments) :
-      n.queue.push(arguments)
-    };
 
-    if(!f._fbq)f._fbq=n;
+    !function(f,b,e,v,n,t,s)
+    {
+      if(f.fbq)return;
 
-    n.push=n;
-    n.loaded=!0;
-    n.version='2.0';
-    n.queue=[];
+      n=f.fbq=function()
+      {
+        n.callMethod ?
+        n.callMethod.apply(n,arguments) :
+        n.queue.push(arguments)
+      };
 
-    t=b.createElement(e);
-    t.async=!0;
-    t.src=v;
+      if(!f._fbq)f._fbq=n;
 
-    s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)
-  }(
-    window,
-    document,
-    'script',
-    'https://connect.facebook.net/en_US/fbevents.js'
-  );
+      n.push=n;
+      n.loaded=!0;
+      n.version='2.0';
+      n.queue=[];
 
-  fbq('init', '2630824080688109');
-  fbq('track', 'PageView');
+      t=b.createElement(e);
+      t.async=!0;
+      t.src=v;
+
+      s=b.getElementsByTagName(e)[0];
+
+      s.parentNode.insertBefore(t,s)
+
+    }(
+      window,
+      document,
+      'script',
+      'https://connect.facebook.net/en_US/fbevents.js'
+    );
+
+
+    fbq(
+      'init',
+      '2630824080688109'
+    );
+
+    fbq(
+      'track',
+      'PageView'
+    );
+
   </script>
 
+
   <noscript>
+
     <img
       height="1"
       width="1"
       style="display:none"
       src="https://www.facebook.com/tr?id=2630824080688109&ev=PageView&noscript=1"
-    />
+    >
+
   </noscript>
-  <!-- End Meta Pixel Code -->
+
 
 </head>
 
+
 <body>
 
-  <!-- Background Video -->
+
+  <!-- =====================================================
+       VIDEO BACKGROUND
+       ===================================================== -->
+
   <div class="video-bg-container">
+
     <video
       class="video-bg"
       autoplay
@@ -80,95 +140,201 @@
       preload="auto"
       poster="bg-poster.png"
     >
-      <source src="vidio.mp4" type="video/mp4" />
+
+      <source
+        src="vidio.mp4"
+        type="video/mp4"
+      >
+
     </video>
 
     <div class="video-bg-overlay"></div>
+
   </div>
 
 
   <div class="site-wrapper">
 
-    <!-- HEADER -->
-    <header class="header" id="header">
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header
+      class="header"
+      id="header"
+    >
+
       <div class="container">
 
-        <a href="index.html" class="logo">
-          <img src="logo.jpeg" alt="HB.negoce" class="logo-img">
+
+        <a
+          href="index.html"
+          class="logo"
+        >
+
+          <img
+            src="logo.jpeg"
+            alt="HB.negoce"
+            class="logo-img"
+          >
+
           HB.negoce
+
         </a>
+
 
         <div class="header-actions">
 
-          <button class="cart-btn" id="cartBtn" aria-label="فتح السلة">
+
+          <button
+            class="cart-btn"
+            id="cartBtn"
+            aria-label="فتح السلة"
+          >
+
             <i class="fas fa-shopping-bag"></i>
-            <span class="cart-count" id="cartCount">0</span>
+
+            <span
+              class="cart-count"
+              id="cartCount"
+            >
+              0
+            </span>
+
           </button>
 
-          <button class="info-btn" id="infoBtn" aria-label="معلومات التواصل">
+
+          <button
+            class="info-btn"
+            id="infoBtn"
+            aria-label="معلومات التواصل"
+          >
+
             <i class="fas fa-headset"></i>
+
           </button>
+
 
         </div>
 
+
       </div>
+
     </header>
 
 
-    <!-- PRODUCT -->
+    <!-- =====================================================
+         PRODUCT PAGE
+         ===================================================== -->
+
     <main class="product-page">
 
       <div class="container">
 
-        <a href="index.html#products" class="back-btn">
+
+        <a
+          href="index.html#products"
+          class="back-btn"
+        >
+
           <i class="fas fa-arrow-right"></i>
+
           العودة للمنتجات
+
         </a>
 
+
         <div id="productContent"></div>
+
 
       </div>
 
     </main>
 
 
-    <!-- CART OVERLAY -->
-    <div class="cart-overlay" id="cartOverlay"></div>
+    <!-- =====================================================
+         CART
+         ===================================================== -->
+
+    <div
+      class="cart-overlay"
+      id="cartOverlay"
+    ></div>
 
 
-    <!-- CART -->
-    <aside class="cart-sidebar" id="cartSidebar">
+    <aside
+      class="cart-sidebar"
+      id="cartSidebar"
+    >
+
 
       <div class="cart-header">
 
+
         <div class="cart-header-title">
+
           <i class="fas fa-shopping-bag"></i>
-          <h3>سلة المشتريات</h3>
+
+          <h3>
+            سلة المشتريات
+          </h3>
+
         </div>
 
-        <button id="closeCart" aria-label="إغلاق السلة">
+
+        <button
+          id="closeCart"
+          aria-label="إغلاق السلة"
+        >
+
           <i class="fas fa-times"></i>
+
         </button>
+
 
       </div>
 
 
-      <div class="cart-items" id="cartItems"></div>
+      <div
+        class="cart-items"
+        id="cartItems"
+      ></div>
 
 
       <div class="cart-footer">
 
+
         <div class="cart-totals">
 
+
           <div class="cart-total-row">
-            <span>المجموع الفرعي</span>
-            <span id="cartSubtotal">0 درهم</span>
+
+            <span>
+              المجموع الفرعي
+            </span>
+
+            <span id="cartSubtotal">
+              0 درهم
+            </span>
+
           </div>
 
-          <div class="cart-total-row cart-total-main">
-            <span>الإجمالي</span>
-            <span id="cartTotal">0 درهم</span>
+
+          <div
+            class="cart-total-row cart-total-main"
+          >
+
+            <span>
+              الإجمالي
+            </span>
+
+            <span id="cartTotal">
+              0 درهم
+            </span>
+
           </div>
+
 
         </div>
 
@@ -178,60 +344,125 @@
           id="checkoutBtn"
           disabled
         >
+
           إتمام الطلب
+
         </button>
 
 
-        <button class="btn-secondary" id="closeCartBtn">
+        <button
+          class="btn-secondary"
+          id="closeCartBtn"
+        >
+
           متابعة التسوق
+
         </button>
+
 
       </div>
+
 
     </aside>
 
 
-    <!-- CHECKOUT MODAL -->
-    <div class="modal" id="checkoutModal" aria-hidden="true">
+    <!-- =====================================================
+         CHECKOUT MODAL
+         ===================================================== -->
 
-      <div class="modal-content checkout-content">
+    <div
+      class="modal"
+      id="checkoutModal"
+      aria-hidden="true"
+    >
+
+
+      <div
+        class="modal-content checkout-content"
+      >
+
 
         <button
           class="modal-close"
           id="closeCheckout"
           aria-label="إغلاق"
         >
+
           <i class="fas fa-times"></i>
+
         </button>
 
 
         <div class="checkout-body">
 
+
           <div>
 
-            <h3>إتمام الطلب</h3>
+
+            <h3>
+              إتمام الطلب
+            </h3>
 
 
-            <!-- CHECKOUT FORM -->
-            <form id="checkoutForm">
+            <!-- =================================================
+                 FORMSUBMIT
+                 يبقى خدام
+                 ================================================= -->
 
-              <!-- معلومات مخفية للطلب -->
+            <form
+              id="checkoutForm"
+              action="https://formsubmit.co/hbnegoce7@gmail.com"
+              method="POST"
+              target="hiddenSubmitFrame"
+            >
+
+
+              <!-- FormSubmit settings -->
+
+              <input
+                type="hidden"
+                name="_captcha"
+                value="false"
+              >
+
+
+              <input
+                type="hidden"
+                name="_template"
+                value="table"
+              >
+
+
+              <input
+                type="hidden"
+                name="_subject"
+                id="formSubject"
+                value="طلب جديد"
+              >
+
+
+              <!-- Products -->
+
               <input
                 type="hidden"
                 name="products"
                 id="formProducts"
                 value=""
-              />
+              >
+
+
+              <!-- Total -->
 
               <input
                 type="hidden"
                 name="total"
                 id="formTotal"
                 value=""
-              />
+              >
 
 
-              <!-- الاسم -->
+              <!-- Name -->
+
               <input
                 type="text"
                 name="name"
@@ -239,10 +470,11 @@
                 placeholder="الاسم الكامل *"
                 autocomplete="name"
                 required
-              />
+              >
 
 
-              <!-- الهاتف -->
+              <!-- Phone -->
+
               <input
                 type="tel"
                 name="phone"
@@ -255,10 +487,11 @@
                 autocomplete="tel"
                 oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                 required
-              />
+              >
 
 
-              <!-- العنوان -->
+              <!-- Address -->
+
               <input
                 type="text"
                 name="address"
@@ -266,56 +499,87 @@
                 placeholder="العنوان *"
                 autocomplete="street-address"
                 required
-              />
+              >
 
 
-              <!-- زر الطلب -->
+              <!-- Submit -->
+
               <button
                 type="submit"
                 class="btn-primary"
                 id="submitOrderBtn"
               >
+
                 تأكيد الطلب
+
               </button>
 
+
             </form>
+
+
+            <!-- Hidden iframe for FormSubmit -->
+
+            <iframe
+              name="hiddenSubmitFrame"
+              style="display:none"
+            ></iframe>
+
 
           </div>
 
 
-          <!-- ملخص الطلب -->
+          <!-- Order summary -->
+
           <div
             class="checkout-summary"
             id="checkoutSummary"
           ></div>
 
+
         </div>
 
+
       </div>
+
 
     </div>
 
 
-    <!-- FOOTER -->
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
     <footer class="footer">
+
 
       <div class="container footer-grid">
 
+
         <p>
+
           &copy; 2026 HB.negoce.
-          جميع الحقوق محفوضة youssef elkadaoui
+
+          جميع الحقوق محفوظة
+
+          youssef elkadaoui
+
         </p>
 
 
         <div class="footer-contact">
+
 
           <a
             href="https://www.facebook.com/share/199ndK76cP/?mibextid=wwXIfr"
             target="_blank"
             rel="noopener"
           >
+
             <i class="fab fa-facebook"></i>
+
             Facebook
+
           </a>
 
 
@@ -324,8 +588,11 @@
             target="_blank"
             rel="noopener"
           >
+
             <i class="fab fa-instagram"></i>
+
             Instagram
+
           </a>
 
 
@@ -334,41 +601,63 @@
             target="_blank"
             rel="noopener"
           >
+
             <i class="fab fa-whatsapp"></i>
+
             +212 699-564747
+
           </a>
 
 
           <a href="mailto:Hbnegoce7@gmail.com">
+
             <i class="fas fa-envelope"></i>
+
             Hbnegoce7@gmail.com
+
           </a>
+
 
         </div>
 
+
       </div>
 
+
     </footer>
+
 
   </div>
 
 
-  <!-- SOCIAL POPUP -->
-  <div class="social-popup" id="socialPopup">
+  <!-- =====================================================
+       SOCIAL POPUP
+       ===================================================== -->
+
+  <div
+    class="social-popup"
+    id="socialPopup"
+  >
+
 
     <div class="social-popup-content">
+
 
       <button
         class="social-popup-close"
         id="socialPopupClose"
         aria-label="إغلاق"
       >
+
         <i class="fas fa-times"></i>
+
       </button>
 
 
       <span class="social-popup-title">
+
         تابعنا على
+
       </span>
 
 
@@ -377,8 +666,11 @@
         target="_blank"
         rel="noopener"
       >
+
         <i class="fab fa-facebook"></i>
+
         Facebook
+
       </a>
 
 
@@ -387,8 +679,11 @@
         target="_blank"
         rel="noopener"
       >
+
         <i class="fab fa-instagram"></i>
+
         Instagram
+
       </a>
 
 
@@ -397,23 +692,37 @@
         target="_blank"
         rel="noopener"
       >
+
         <i class="fab fa-whatsapp"></i>
+
         WhatsApp
+
       </a>
 
 
       <a href="mailto:Hbnegoce7@gmail.com">
+
         <i class="fas fa-envelope"></i>
+
         Gmail
+
       </a>
 
+
     </div>
+
 
   </div>
 
 
-  <!-- TOAST -->
-  <div class="toast" id="toast">
+  <!-- =====================================================
+       TOAST
+       ===================================================== -->
+
+  <div
+    class="toast"
+    id="toast"
+  >
 
     <i class="fas fa-check-circle"></i>
 
@@ -422,7 +731,10 @@
   </div>
 
 
-  <!-- WHATSAPP -->
+  <!-- =====================================================
+       WHATSAPP FLOAT
+       ===================================================== -->
+
   <a
     href="https://wa.me/212699564747?text=مرحباً،%20أريد%20الاستفسار%20عن%20ساعاتكم"
     class="whatsapp-float"
@@ -431,229 +743,24 @@
     rel="noopener"
     aria-label="تواصل معنا على واتساب"
   >
+
     <i class="fab fa-whatsapp"></i>
+
   </a>
 
 
-  <!-- JavaScript الأصلي -->
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
   <script src="pixel-events.js"></script>
+
   <script src="data.js"></script>
+
   <script src="product.js"></script>
 
 
-  <!-- GOOGLE SHEETS ORDER SYSTEM -->
-  <script>
-
-    /*
-      رابط Google Apps Script
-    */
-    const GOOGLE_SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbzUaTN7AUNtE9W4fndhs2jHTvQg4gu9BiqgPduwXLoyrz3LErcdoIzG1BSmw9bhAiD5/exec";
-
-
-    /*
-      إرسال الطلب إلى Google Sheets
-    */
-    document
-      .getElementById("checkoutForm")
-      .addEventListener("submit", async function(event) {
-
-        event.preventDefault();
-
-
-        const form = this;
-
-        const button =
-          document.getElementById("submitOrderBtn");
-
-
-        /*
-          قراءة معلومات الزبون
-        */
-        const fullName =
-          document
-            .getElementById("checkoutName")
-            .value
-            .trim();
-
-
-        const phone =
-          document
-            .getElementById("checkoutPhone")
-            .value
-            .trim();
-
-
-        const address =
-          document
-            .getElementById("checkoutAddress")
-            .value
-            .trim();
-
-
-        /*
-          قراءة معلومات المنتجات
-        */
-        const products =
-          document
-            .getElementById("formProducts")
-            .value
-            .trim();
-
-
-        const total =
-          document
-            .getElementById("formTotal")
-            .value
-            .trim();
-
-
-        /*
-          التحقق من البيانات
-        */
-        if (!fullName) {
-
-          alert("المرجو إدخال الاسم الكامل");
-
-          return;
-        }
-
-
-        if (!phone) {
-
-          alert("المرجو إدخال رقم الهاتف");
-
-          return;
-        }
-
-
-        if (!address) {
-
-          alert("المرجو إدخال العنوان");
-
-          return;
-        }
-
-
-        /*
-          منع الضغط عدة مرات
-        */
-        button.disabled = true;
-
-        button.dataset.oldText =
-          button.textContent;
-
-        button.textContent =
-          "جاري إرسال الطلب...";
-
-
-        /*
-          البيانات التي سترسل إلى Apps Script
-        */
-        const orderData = {
-
-          fullName: fullName,
-
-          phone: phone,
-
-          address: address,
-
-          products: products,
-
-          total: total,
-
-          currency: "MAD"
-
-        };
-
-
-        try {
-
-          /*
-            إرسال JSON إلى Google Apps Script
-          */
-          await fetch(
-            GOOGLE_SCRIPT_URL,
-            {
-              method: "POST",
-
-              mode: "no-cors",
-
-              headers: {
-                "Content-Type":
-                  "text/plain;charset=utf-8"
-              },
-
-              body:
-                JSON.stringify(orderData)
-            }
-          );
-
-
-          /*
-            بما أن no-cors لا يسمح بقراءة
-            جواب Google، نعتبر الإرسال ناجحاً
-            بعد انتهاء الطلب.
-          */
-
-          alert(
-            "✅ تم إرسال طلبك بنجاح!"
-          );
-
-
-          /*
-            تفريغ الفورم
-          */
-          form.reset();
-
-
-          /*
-            إغلاق نافذة الطلب
-          */
-          const modal =
-            document.getElementById(
-              "checkoutModal"
-            );
-
-
-          if (modal) {
-
-            modal.setAttribute(
-              "aria-hidden",
-              "true"
-            );
-
-          }
-
-
-        } catch (error) {
-
-          console.error(
-            "Google Sheets Order Error:",
-            error
-          );
-
-
-          alert(
-            "❌ وقع مشكل أثناء إرسال الطلب. حاول مرة أخرى."
-          );
-
-        }
-
-
-        /*
-          إعادة الزر لحالته الطبيعية
-        */
-        button.disabled = false;
-
-        button.textContent =
-          button.dataset.oldText ||
-          "تأكيد الطلب";
-
-      });
-
-  </script>
-
 </body>
+
 </html>
 ```
