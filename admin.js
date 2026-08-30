@@ -1,7 +1,7 @@
 import { auth, database, storage } from './firebase-config.js';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js';
-import { onValue, ref, remove, set } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js';
-import { getDownloadURL, ref as storageRef, uploadBytes } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import { onValue, ref, remove, set } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+import { getDownloadURL, ref as storageRef, uploadBytes } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
 
 const $ = (id) => document.getElementById(id);
 const authView = $('authView'), dashboardView = $('dashboardView'), productForm = $('productForm');
@@ -33,6 +33,7 @@ function loginErrorMessage(error) {
   if (code === 'auth/operation-not-allowed') return 'فعّل Email/Password من Firebase Authentication → Sign-in method.';
   if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') return 'البريد الإلكتروني أو كلمة المرور غير صحيحين.';
   if (code === 'auth/too-many-requests') return 'تم إيقاف المحاولات مؤقتًا بسبب كثرتها. انتظر قليلًا ثم جرّب مرة أخرى.';
+  if (code === 'auth/network-request-failed') return 'تعذر الوصول إلى Firebase عبر الشبكة. تأكد من اتصال الإنترنت ومن فتح رابط GitHub Pages، وليس رابط ملفات GitHub.';
   return `تعذر تسجيل الدخول${code ? ` (${code})` : ''}.`;
 }
 function displayProducts() {
