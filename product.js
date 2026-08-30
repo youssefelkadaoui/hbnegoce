@@ -197,25 +197,45 @@ infoBtn.addEventListener('click', () => { socialPopup.classList.add('open'); });
 socialPopupClose.addEventListener('click', () => { socialPopup.classList.remove('open'); });
 socialPopup.addEventListener('click', (e) => { if (e.target === socialPopup) socialPopup.classList.remove('open'); });
 
-checkoutForm.addEventListener('submit', (e) => {
+checkoutForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const name = document.getElementById('checkoutName').value;
-  const phone = document.getElementById('checkoutPhone').value;
-  const address = document.getElementById('checkoutAddress').value;
+
+  const name = document.getElementById('checkoutName').value.trim();
+  const phone = document.getElementById('checkoutPhone').value.trim();
+  const city = document.getElementById('checkoutCity').value.trim();
+  const address = document.getElementById('checkoutAddress').value.trim();
+
+  if (!name || !phone || !city || !address) {
+    showToast('يرجى تعبئة جميع الحقول المطلوبة');
+    return;
+  }
+
   const items = cart.map(item => `- ${item.name} ${item.variant ? '(رقم ' + item.variant + ')' : ''} × ${item.qty} = ${fmtPrice(item.price * item.qty)} درهم`).join('\n');
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const payload = {
+    name,
+    phone,
+    city,
+    address,
+    products: items,
+    total: fmtPrice(total) + ' درهم'
+  };
+
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbyJHi3EXEUG6JaMoSp-_RmgAMzNTLEzwGXrE675h9JLaXtpxVS_7Xbg0I4C1cOOGH0X0A/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (error) {
+    console.error('Google Apps Script request failed:', error);
+  }
 
   document.getElementById('formSubject').value = `طلب جديد من ${name}`;
   document.getElementById('formProducts').value = items;
   document.getElementById('formTotal').value = fmtPrice(total) + ' درهم';
 
-  sendOrderToGoogleSheets({
-    name,
-    phone,
-    address,
-    products: items,
-    total: fmtPrice(total) + ' درهم'
-  });
+  sendOrderToGoogleSheets(payload);
 
   window.trackMetaEvent('Lead', {
     value: total,
@@ -431,3 +451,4 @@ const waFloat = document.getElementById('waFloat');
 if (waFloat) setTimeout(() => waFloat.classList.add('show'), 1200);
 
 saveCart();
+
