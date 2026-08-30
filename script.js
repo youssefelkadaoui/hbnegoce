@@ -23,6 +23,7 @@ const socialPopupClose = document.getElementById('socialPopupClose');
 let cart = JSON.parse(localStorage.getItem('hb_cart')) || [];
 let activeFilter = 'all';
 let activeQuery = '';
+let activeproductId = null;
 let toastTimeout;
 
 function fmtPrice(n) {
@@ -271,62 +272,60 @@ checkoutForm.addEventListener('submit', async (event) => {
 
   const name = document.getElementById('checkoutName').value.trim();
   const phone = document.getElementById('checkoutPhone').value.trim();
-  const cityInput = document.getElementById('checkoutCity');
-  const city = cityInput ? cityInput.value.trim() : '';
   const address = document.getElementById('checkoutAddress').value.trim();
 
-  if (!name || !phone || !city || !address) {
-    showToast('يرجى تعبئة جميع حقول الطلب');
+  if (!cart.length) {
+    showToast('سلة الطلب فارغة');
     return;
   }
 
-  const items = cart.map(item => `- ${item.name} ${item.variant ? '(رقم ' + item.variant + ')' : ''} × ${item.qty} = ${fmtPrice(item.price * item.qty)} درهم`).join('\n');
+  if (!name || !phone || !address) {
+    showToast('يرجى تعبئة جميع الحقول المطلوبة');
+    return;
+  }
+
+  const items = cart.map((item) => `- ${item.name} ${item.variant ? '(رقم ' + item.variant + ')' : ''} × ${item.qty} = ${fmtPrice(item.price * item.qty)} درهم`).join('\n');
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const totalText = fmtPrice(total) + ' درهم';
   const payload = {
     name,
     phone,
-    city,
     address,
     products: items,
-    total: fmtPrice(total) + ' درهم'
+    total: totalText
   };
 
+  document.getElementById('formSubject').value = `طلب جديد من ${name}`;
+  document.getElementById('formProducts').value = items;
+  document.getElementById('formTotal').value = totalText;
+
   try {
-    const response = await fetch(googleSheetsEndpoint, {
+    await fetch(googleSheetsEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    });
-
-    const result = await response.json();
-    if (result && result.ok) {
-      document.getElementById('formSubject').value = `طلب جديد من ${name}`;
-      document.getElementById('formProducts').value = items;
-      document.getElementById('formTotal').value = fmtPrice(total) + ' درهم';
-      window.trackMetaEvent('Lead', {
-        value: total,
-        currency: 'MAD',
-        content_ids: cart.map((item) => String(item.id)),
-        content_type: 'product',
-        contents: cart.map((item) => ({ id: String(item.id), quantity: item.qty }))
-      });
-
-      checkoutForm.submit();
-      showToast('تم إرسال الطلب بنجاح');
-      cart = [];
-      saveCart();
-      closeCheckoutModal();
-      closeCartSidebar();
-      checkoutForm.reset();
-      document.getElementById('formProducts').value = '';
-      document.getElementById('formTotal').value = '';
-    } else {
-      showToast('تعذر إرسال الطلب، حاول مرة أخرى');
-    }
+    }).catch(() => {});
   } catch (error) {
-    console.error('Order send failed:', error);
-    showToast('تعذر إرسال الطلب، حاول مرة أخرى');
+    console.warn('Google Apps Script failed, continuing with FormSubmit fallback:', error);
   }
+
+  window.trackMetaEvent('Lead', {
+    value: total,
+    currency: 'MAD',
+    content_ids: cart.map((item) => String(item.id)),
+    content_type: 'product',
+    contents: cart.map((item) => ({ id: String(item.id), quantity: item.qty }))
+  });
+
+  checkoutForm.submit();
+  showToast('تم إرسال الطلب بنجاح');
+  cart = [];
+  saveCart();
+  closeCheckoutModal();
+  closeCartSidebar();
+  checkoutForm.reset();
+  document.getElementById('formProducts').value = '';
+  document.getElementById('formTotal').value = '';
 });
 
 contactForm.addEventListener('submit', (event) => {
