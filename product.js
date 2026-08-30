@@ -7,7 +7,7 @@ function fmtPrice(n) {
   try { return n.toLocaleString('ar'); } catch (e) { return String(n); }
 }
 
-const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycbxNN0LYs-KQsS2zG2iqA_pjPqOSRYKQU0VDUwecyZcYGvNGUrGbeKObYu8TP2gDSE-4zg/exec';
+const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycbyrCHnnbCg-8YTtXDXPp18cPtemDdA5CH2ejr2NLggzqbHDfCK-WGt6bi2Sp-FcQNM0nQ/exec';
 
 function sendOrderToGoogleSheets(order) {
   const form = document.createElement('form');
@@ -453,3 +453,4 @@ const waFloat = document.getElementById('waFloat');
 if (waFloat) setTimeout(() => waFloat.classList.add('show'), 1200);
 
 saveCart();
+
