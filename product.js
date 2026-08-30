@@ -179,7 +179,6 @@ checkoutForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const name = document.getElementById('checkoutName').value;
   const phone = document.getElementById('checkoutPhone').value;
-  const city = document.getElementById('checkoutCity').value;
   const address = document.getElementById('checkoutAddress').value;
   const items = cart.map(item => `- ${item.name} ${item.variant ? '(رقم ' + item.variant + ')' : ''} × ${item.qty} = ${fmtPrice(item.price * item.qty)} درهم`).join('\n');
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
@@ -221,6 +220,10 @@ try {
   });
 
   document.title = `HB.negoce | ${product.name}`;
+  const pageDescription = document.querySelector('meta[name="description"]');
+  if (pageDescription) {
+    pageDescription.setAttribute('content', `${product.name} من ${product.brand} لدى HB.negoce. ${product.desc} اطلب الآن مع التوصيل إلى جميع مدن المغرب.`);
+  }
   const allImages = product.images && product.images.length ? product.images : [product.image];
   const variants = product.variants || [{ index: 0, name: '', image: allImages[0] }];
 
