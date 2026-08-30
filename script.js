@@ -328,8 +328,36 @@ checkoutForm.addEventListener('submit', async (event) => {
   document.getElementById('formTotal').value = '';
 });
 
-contactForm.addEventListener('submit', (event) => {
+contactForm.addEventListener('submit', async (event) => {
   event.preventDefault();
+
+  const formData = new FormData(contactForm);
+  const name = (formData.get('name') || '').toString().trim();
+  const email = (formData.get('email') || '').toString().trim();
+  const message = (formData.get('message') || '').toString().trim();
+
+  if (!name || !email || !message) {
+    showToast('يرجى تعبئة جميع حقول الرسالة');
+    return;
+  }
+
+  const payload = {
+    source: 'contact_form',
+    name,
+    email,
+    message
+  };
+
+  try {
+    await fetch(googleSheetsEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  } catch (error) {
+    console.warn('Contact form submit failed:', error);
+  }
+
   showToast('تم استلام رسالتك وسنرد عليك قريباً');
   contactForm.reset();
 });
@@ -368,4 +396,3 @@ if (waFloat) setTimeout(() => waFloat.classList.add('show'), 1200);
 
 renderProducts();
 saveCart();
-
