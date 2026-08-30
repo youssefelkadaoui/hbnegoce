@@ -223,6 +223,87 @@
       <i class="fab fa-whatsapp"></i>
     </a>
 
+
+    <!-- Google Sheets order integration -->
+    <script>
+      const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzUaTN7AUNtE9W4fndhs2jHTvQg4gu9BiqgPduwXLoyrz3LErcdoIzG1BSmw9bhAiD5/exec";
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkoutForm = document.getElementById("checkoutForm");
+
+        if (!checkoutForm) return;
+
+        // Capture the submit before other submit handlers in script.js.
+        checkoutForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+
+          const button = checkoutForm.querySelector('button[type="submit"]');
+
+          const fullName = document.getElementById("checkoutName").value.trim();
+          const phone = document.getElementById("checkoutPhone").value.trim();
+          const address = document.getElementById("checkoutAddress").value.trim();
+
+          const products = document.getElementById("formProducts").value.trim();
+          const total = document.getElementById("formTotal").value.trim();
+
+          if (!fullName || !phone || !address) {
+            alert("المرجو ملء جميع المعلومات المطلوبة.");
+            return;
+          }
+
+          const orderSummary = products
+            ? products + (total ? " | الإجمالي: " + total : "")
+            : "طلب جديد" + (total ? " | الإجمالي: " + total : "");
+
+          const data = {
+            fullName: fullName,
+            phone: phone,
+            address: address,
+            orderSummary: orderSummary
+          };
+
+          const originalText = button ? button.textContent : "";
+
+          if (button) {
+            button.disabled = true;
+            button.textContent = "جاري إرسال الطلب...";
+          }
+
+          try {
+            await fetch(GOOGLE_SHEETS_URL, {
+              method: "POST",
+              mode: "no-cors",
+              headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+              },
+              body: JSON.stringify(data)
+            });
+
+            alert("✅ تم إرسال طلبك بنجاح!");
+
+            checkoutForm.reset();
+
+            // Close the checkout modal if it exists.
+            const modal = document.getElementById("checkoutModal");
+            if (modal) {
+              modal.setAttribute("aria-hidden", "true");
+              modal.classList.remove("active", "open", "show");
+            }
+
+          } catch (error) {
+            console.error("Google Sheets error:", error);
+            alert("❌ حدث خطأ أثناء إرسال الطلب. المرجو المحاولة مرة أخرى.");
+          } finally {
+            if (button) {
+              button.disabled = false;
+              button.textContent = originalText || "تأكيد الطلب";
+            }
+          }
+        }, true);
+      });
+    </script>
+
     <script src="pixel-events.js"></script>
     <script src="data.js"></script>
     <script src="script.js"></script>
