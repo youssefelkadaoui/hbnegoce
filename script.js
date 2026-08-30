@@ -30,7 +30,7 @@ function fmtPrice(n) {
   try { return n.toLocaleString('ar'); } catch (e) { return String(n); }
 }
 
-const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycby4-w47zYJuASb-EFNMrf8ORx3lQtTj5lfdyCbh-3aYe7933Kgw7Zod9wKVEBMxEgRH8g/exec';
+const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycbxNN0LYs-KQsS2zG2iqA_pjPqOSRYKQU0VDUwecyZcYGvNGUrGbeKObYu8TP2gDSE-4zg/exec';
 
 function sendOrderToGoogleSheets(order) {
   const form = document.createElement('form');
@@ -368,3 +368,4 @@ if (waFloat) setTimeout(() => waFloat.classList.add('show'), 1200);
 
 renderProducts();
 saveCart();
+
