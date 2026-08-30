@@ -25,22 +25,6 @@ let activeFilter = 'all';
 let activeQuery = '';
 let toastTimeout;
 
-// Safe wrapper to track fb events without duplicates across files/pages.
-window.trackFbEvent = function(eventName, params = {}, dedupeMs = 5000) {
-  try {
-    if (typeof window._fbqFired !== 'object') window._fbqFired = {};
-    // create a dedupe key based on eventName and content identifiers if present
-    const idPart = (params.content_ids && params.content_ids.join(',')) || (params.contents && params.contents.map(c => c.id).join(',')) || String(params.value || '');
-    const key = `${eventName}::${idPart}`;
-    const now = Date.now();
-    if (window._fbqFired[key] && (now - window._fbqFired[key] < dedupeMs)) return;
-    window._fbqFired[key] = now;
-    if (typeof fbq === 'function') {
-      try { fbq('track', eventName, params); } catch (e) { /* ignore */ }
-    }
-  } catch (e) { /* ignore */ }
-};
-
 function fmtPrice(n) {
   try { return n.toLocaleString('ar'); } catch (e) { return String(n); }
 }
@@ -199,7 +183,6 @@ function openCheckout() {
     return;
   }
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  window.trackFbEvent('InitiateCheckout', { value: total, currency: 'MAD' });
   checkoutSummary.innerHTML = `
     <h4>ملخص الطلب</h4>
     <ul>
@@ -274,7 +257,13 @@ checkoutForm.addEventListener('submit', (event) => {
   document.getElementById('formProducts').value = items;
   document.getElementById('formTotal').value = fmtPrice(total) + ' درهم';
 
-  window.trackFbEvent('Purchase', { value: total, currency: 'MAD' });
+  window.trackMetaEvent('Lead', {
+    value: total,
+    currency: 'MAD',
+    content_ids: cart.map((item) => String(item.id)),
+    content_type: 'product',
+    contents: cart.map((item) => ({ id: String(item.id), quantity: item.qty }))
+  });
 
   checkoutForm.submit();
   showToast('تم إرسال الطلب');
