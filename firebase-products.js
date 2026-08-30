@@ -4,7 +4,7 @@ window.hbProductsReady = (async () => {
   try {
     const [{ database }, { onValue, ref }] = await Promise.all([
       import('./firebase-config.js'),
-      import('https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js')
+      import('https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js')
     ]);
 
     return await new Promise((resolve) => {
