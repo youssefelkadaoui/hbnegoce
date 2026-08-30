@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>HB.negoce | تفاصيل المنتج</title>
+    <meta name="description" content="تعرّف على ساعات HB.negoce الفاخرة في المغرب: صور، مواصفات، أسعار وخدمة توصيل إلى جميع المدن." />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="product" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -91,8 +94,7 @@
               <input type="hidden" name="products" id="formProducts" value="" />
               <input type="hidden" name="total" id="formTotal" value="" />
               <input type="text" name="name" id="checkoutName" placeholder="الاسم الكامل *" required />
-              <input type="tel" name="phone" id="checkoutPhone" placeholder="رقم الهاتف *" required />
-              <input type="text" name="city" id="checkoutCity" placeholder="المدينة *" required />
+              <input type="tel" name="phone" id="checkoutPhone" placeholder="رقم الهاتف *" inputmode="numeric" pattern="[0-9]{10,15}" minlength="10" maxlength="15" autocomplete="tel" oninput="this.value=this.value.replace(/[^0-9]/g, '')" required />
               <input type="text" name="address" id="checkoutAddress" placeholder="العنوان *" required />
               <button type="submit" class="btn-primary">تأكيد الطلب</button>
             </form>
