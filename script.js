@@ -271,7 +271,8 @@ checkoutForm.addEventListener('submit', async (event) => {
 
   const name = document.getElementById('checkoutName').value.trim();
   const phone = document.getElementById('checkoutPhone').value.trim();
-  const city = document.getElementById('checkoutCity').value.trim();
+  const cityInput = document.getElementById('checkoutCity');
+  const city = cityInput ? cityInput.value.trim() : '';
   const address = document.getElementById('checkoutAddress').value.trim();
 
   if (!name || !phone || !city || !address) {
