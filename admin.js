@@ -1,7 +1,7 @@
 import { auth, database, storage } from './firebase-config.js';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
-import { onValue, ref, remove, set } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
-import { getDownloadURL, ref as storageRef, uploadBytes } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js';
+import { onValue, ref, remove, set } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js';
+import { getDownloadURL, ref as storageRef, uploadBytes } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js';
 
 const $ = (id) => document.getElementById(id);
 const authView = $('authView'), dashboardView = $('dashboardView'), productForm = $('productForm');
