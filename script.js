@@ -30,7 +30,7 @@ function fmtPrice(n) {
   try { return n.toLocaleString('ar'); } catch (e) { return String(n); }
 }
 
-const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycbyJHi3EXEUG6JaMoSp-_RmgAMzNTLEzwGXrE675h9JLaXtpxVS_7Xbg0I4C1cOOGH0X0A/exec';
+const googleSheetsEndpoint = 'https://script.google.com/macros/s/AKfycby4-w47zYJuASb-EFNMrf8ORx3lQtTj5lfdyCbh-3aYe7933Kgw7Zod9wKVEBMxEgRH8g/exec';
 
 function sendOrderToGoogleSheets(order) {
   const form = document.createElement('form');
