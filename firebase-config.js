@@ -22,9 +22,8 @@ const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
-
+ؤ
 // Analytics is not supported in every browser/context, so initialise it safely.
 const analyticsPromise = isSupported().then((supported) => supported ? getAnalytics(app) : null).catch(() => null);
 
 export { app, analyticsPromise, auth, database, firebaseConfig, storage };
-
