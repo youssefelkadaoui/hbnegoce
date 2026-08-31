@@ -124,7 +124,17 @@ function openCheckout() {
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   checkoutSummary.innerHTML = `
     <h4>ملخص الطلب</h4>
-    <ul>      ${cart.map((item) => `<li><span>${item.name} ${item.variant ? '(رقم ' + item.variant + ')' : ''} × ${item.qty}</span><span>${fmtPrice(item.price * item.qty)} درهم</span></li>`).join('')}</ul>
+    <div style="margin-bottom:12px; padding:10px 12px; border:1px solid rgba(255,255,255,0.12); border-radius:12px; background:rgba(255,255,255,0.03);">
+      <div style="font-size:0.8rem; color:#cbbf8a; margin-bottom:6px;">المنتج</div>
+      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+        <div>
+          <div style="font-weight:700;">${cart[0].name}</div>
+          <div style="font-size:0.8rem; color:#d9d9d9;">${cart[0].variant ? 'رقم ' + cart[0].variant : 'بدون خيار'} × ${cart[0].qty}</div>
+        </div>
+        <div style="font-weight:700; color:#fff;">${fmtPrice(cart[0].price * cart[0].qty)} درهم</div>
+      </div>
+    </div>
+    <ul>${cart.map((item) => `<li><span>${item.name} ${item.variant ? '(رقم ' + item.variant + ')' : ''} × ${item.qty}</span><span>${fmtPrice(item.price * item.qty)} درهم</span></li>`).join('')}</ul>
     <div class="cart-total" style="margin-top:12px;"><span>الإجمالي</span><span>${fmtPrice(total)} درهم</span></div>
   `;
   checkoutModal.classList.add('open');
@@ -136,26 +146,27 @@ function closeCheckoutModal() {
   checkoutModal.setAttribute('aria-hidden', 'true');
 }
 
-function addToCartFromPage() {
+function buyNowFromPage() {
   if (!product) return;
-  const btn = document.getElementById('addToCartBtn');
-  if (!btn) { console.error('addToCartFromPage: addToCartBtn not found'); return; }
   const variant = product.variants[selectedVariantIndex];
-  const existing = cart.find(item => item.id === product.id && item.variantIndex === selectedVariantIndex);
-  if (existing) existing.qty += selectedQty;
-  else cart.push({ id: product.id, name: product.name, brand: product.brand, price: product.price, image: variant.image, variant: variant.index, variantIndex: selectedVariantIndex, qty: selectedQty });
+  cart = [{
+    id: product.id,
+    name: product.name,
+    brand: product.brand,
+    price: product.price,
+    image: variant.image,
+    variant: variant.index,
+    variantIndex: selectedVariantIndex,
+    qty: selectedQty
+  }];
   try {
     saveCart();
-    console.log('addToCartFromPage: cart after add', cart);
-  } catch (e) { console.error('addToCartFromPage error', e); }
-  btn.classList.add('added');
-  btn.innerHTML = '<i class="fas fa-check"></i> تمت الإضافة!';
-  setTimeout(() => {
-    btn.classList.remove('added');
-    btn.innerHTML = '<i class="fas fa-shopping-bag"></i> إضافة للسلة';
-  }, 2000);
-  showToast(`تمت إضافة ${product.name} (رقم ${variant.index}) إلى السلة`);
-  openCart();
+    console.log('buyNowFromPage: cart set', cart);
+  } catch (e) {
+    console.error('buyNowFromPage error', e);
+  }
+  openCheckout();
+  showToast(`تمت إضافة ${product.name} (رقم ${variant.index}) إلى طلب الشراء`);
 }
 
 document.addEventListener('click', (e) => {
@@ -167,12 +178,17 @@ document.addEventListener('click', (e) => {
   if (remove) removeFromCart(Number(remove.dataset.id), Number(remove.dataset.variant));
 });
 
-cartBtn.addEventListener('click', openCart);
-closeCart.addEventListener('click', closeCartSidebar);
-closeCartBtn.addEventListener('click', closeCartSidebar);
-cartOverlay.addEventListener('click', closeCartSidebar);
+if (cartBtn) {
+  cartBtn.style.display = 'none';
+  cartBtn.setAttribute('aria-hidden', 'true');
+}
+if (cartSidebar) cartSidebar.style.display = 'none';
+if (cartOverlay) cartOverlay.style.display = 'none';
+if (closeCart) closeCart.style.display = 'none';
+if (closeCartBtn) closeCartBtn.style.display = 'none';
+if (checkoutBtn) checkoutBtn.style.display = 'none';
+
 closeCheckout.addEventListener('click', closeCheckoutModal);
-checkoutBtn.addEventListener('click', openCheckout);
 infoBtn.addEventListener('click', () => { socialPopup.classList.add('open'); });
 socialPopupClose.addEventListener('click', () => { socialPopup.classList.remove('open'); });
 socialPopup.addEventListener('click', (e) => { if (e.target === socialPopup) socialPopup.classList.remove('open'); });
@@ -291,8 +307,8 @@ try {
           </div>
         </div>
         <div class="pd-actions">
-          <button class="btn-primary pd-add-btn" id="addToCartBtn">
-            <i class="fas fa-shopping-bag"></i> إضافة للسلة
+          <button class="btn-primary pd-add-btn" id="buyNowBtn">
+            <i class="fas fa-credit-card"></i> شراء الآن
           </button>
         </div>
         <div class="pd-guarantees">
@@ -310,7 +326,7 @@ try {
   const qtyMinus = document.getElementById('qtyMinus');
   const qtyPlus = document.getElementById('qtyPlus');
   const qtyValue = document.getElementById('qtyValue');
-  const addToCartBtn = document.getElementById('addToCartBtn');
+  const buyNowBtn = document.getElementById('buyNowBtn');
 
   // Variant selection
   variantBtns.forEach(btn => {
@@ -348,7 +364,7 @@ try {
   qtyPlus.addEventListener('click', () => {
     if (selectedQty < 99) { selectedQty++; qtyValue.textContent = selectedQty; }
   });
-  addToCartBtn.addEventListener('click', addToCartFromPage);
+  buyNowBtn.addEventListener('click', buyNowFromPage);
 
   // Inject dynamic Product JSON-LD into <head> for rich results
   try {
