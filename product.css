@@ -251,6 +251,7 @@
   box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
 }
 .pd-sticky-order-btn:hover { background: linear-gradient(135deg, #2563eb, #1e40af); }
+.checkout-open .pd-actions { display: none; }
 }
 .pd-add-btn {
   width: 100%;
