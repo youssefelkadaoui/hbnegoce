@@ -139,12 +139,14 @@ function openCheckout() {
   `;
   checkoutModal.classList.add('open');
   checkoutModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('checkout-open');
   requestAnimationFrame(() => document.getElementById('checkoutName')?.focus());
 }
 
 function closeCheckoutModal() {
   checkoutModal.classList.remove('open');
   checkoutModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('checkout-open');
 }
 
 function buyNowFromPage() {
@@ -470,3 +472,4 @@ const waFloat = document.getElementById('waFloat');
 if (waFloat) setTimeout(() => waFloat.classList.add('show'), 1200);
 
 saveCart();
+
