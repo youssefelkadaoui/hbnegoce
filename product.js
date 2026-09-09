@@ -139,6 +139,7 @@ function openCheckout() {
   `;
   checkoutModal.classList.add('open');
   checkoutModal.setAttribute('aria-hidden', 'false');
+  requestAnimationFrame(() => document.getElementById('checkoutName')?.focus());
 }
 
 function closeCheckoutModal() {
@@ -170,6 +171,11 @@ function buyNowFromPage() {
 }
 
 document.addEventListener('click', (e) => {
+  if (e.target.closest('#buyNowBtn')) {
+    e.preventDefault();
+    buyNowFromPage();
+    return;
+  }
   const up = e.target.closest('.qty-up');
   if (up) { changeQty(Number(up.dataset.id), Number(up.dataset.variant), 1); return; }
   const down = e.target.closest('.qty-down');
@@ -328,7 +334,7 @@ try {
             <span class="pd-sticky-product-name">${product.name}</span>
             <strong class="pd-sticky-product-price">${fmtPrice(product.price)} د.م</strong>
           </div>
-          <button class="btn-primary pd-add-btn pd-sticky-order-btn" id="buyNowBtn">
+          <button type="button" class="btn-primary pd-add-btn pd-sticky-order-btn" id="buyNowBtn">
             <i class="fas fa-bag-shopping"></i> اطلب الآن
           </button>
         </div>
@@ -351,7 +357,6 @@ try {
   // Move the sticky bar outside product content so it is visible immediately,
   // independently of the product section's scroll position.
   if (stickyOrderBar) document.body.appendChild(stickyOrderBar);
-  const buyNowBtn = document.getElementById('buyNowBtn');
 
   // Variant selection
   variantBtns.forEach(btn => {
@@ -389,8 +394,6 @@ try {
   qtyPlus.addEventListener('click', () => {
     if (selectedQty < 99) { selectedQty++; qtyValue.textContent = selectedQty; }
   });
-  buyNowBtn.addEventListener('click', buyNowFromPage);
-
   // Inject dynamic Product JSON-LD into <head> for rich results
   try {
     const productJson = {
