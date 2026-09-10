@@ -355,6 +355,7 @@ try {
   const qtyMinus = document.getElementById('qtyMinus');
   const qtyPlus = document.getElementById('qtyPlus');
   const qtyValue = document.getElementById('qtyValue');
+  const stickyProductPrice = document.querySelector('.pd-sticky-product-price');
   const stickyOrderBar = document.querySelector('.pd-actions');
   // Move the sticky bar outside product content so it is visible immediately,
   // independently of the product section's scroll position.
@@ -390,11 +391,26 @@ try {
     });
   });
 
+  // Keep the total in the fixed order bar in sync with the selected quantity.
+  function updateOrderBarPrice() {
+    const total = product.price * selectedQty;
+    stickyProductPrice.textContent = `${fmtPrice(total)} د.م`;
+    stickyProductPrice.setAttribute('aria-label', `إجمالي ${selectedQty} قطعة: ${fmtPrice(total)} درهم`);
+  }
+
   qtyMinus.addEventListener('click', () => {
-    if (selectedQty > 1) { selectedQty--; qtyValue.textContent = selectedQty; }
+    if (selectedQty > 1) {
+      selectedQty--;
+      qtyValue.textContent = selectedQty;
+      updateOrderBarPrice();
+    }
   });
   qtyPlus.addEventListener('click', () => {
-    if (selectedQty < 99) { selectedQty++; qtyValue.textContent = selectedQty; }
+    if (selectedQty < 99) {
+      selectedQty++;
+      qtyValue.textContent = selectedQty;
+      updateOrderBarPrice();
+    }
   });
   // Inject dynamic Product JSON-LD into <head> for rich results
   try {
