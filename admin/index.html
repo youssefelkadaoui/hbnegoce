@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HB.negoce | إدارة المنتجات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <main class="shell">
+    <a class="brand" href="../index.html">HB.<em>negoce</em><small>لوحة الإدارة</small></a>
+    <section class="card login-card" id="loginView">
+      <p class="kicker">دخول آمن</p><h1>تسجيل دخول المدير</h1>
+      <p class="muted">استخدم البريد وكلمة المرور اللذين أنشأتهما في Supabase.</p>
+      <form id="loginForm"><label>البريد الإلكتروني<input id="email" type="email" required autocomplete="email"></label><label>كلمة المرور<input id="password" type="password" required autocomplete="current-password"></label><button>تسجيل الدخول</button></form>
+      <p id="loginMessage" class="message" role="alert"></p>
+    </section>
+    <section class="dashboard" id="dashboard" hidden>
+      <header class="dashboard-head"><div><p class="kicker">الكتالوج</p><h1>إدارة المنتجات</h1></div><div><a class="shop-link" href="../index.html" target="_blank">عرض المتجر</a><button class="secondary" id="logoutBtn">خروج</button></div></header>
+      <div class="notice">أي تعديل هنا يظهر تلقائياً للزوار بعد تحديث صفحة المتجر.</div>
+      <div class="grid">
+        <section class="card"><h2>إضافة منتج جديد</h2><form id="productForm" class="product-form">
+          <label>نوع المنتج<select name="category"><option>ساعات</option><option>عطور</option><option>ملابس</option><option>أحذية</option><option>محافظ</option><option>حقائب</option><option>إكسسوارات</option></select></label><label>اسم المنتج<input name="name" placeholder="مثال: ساعة كلاسيكية" required></label>
+          <label>العلامة التجارية (اختياري)<input name="brand" placeholder="مثال: HB.negoce"></label><label>السعر (درهم)<input name="price" type="number" min="1" required></label>
+          <label>السعر القديم (اختياري)<input name="oldPrice" type="number" min="1"></label><label>حالة الكمية<select name="stockStatus"><option value="unlimited">الكمية غير محدودة</option><option value="limited">الكمية محدودة</option></select></label>
+          <label class="wide">الوصف<textarea name="desc" placeholder="اكتب وصفاً واضحاً للمنتج" required></textarea></label><label class="wide">شارة المنتج (اختياري)<input name="badge" placeholder="جديد أو عرض خاص"></label>
+          <fieldset class="wide variants-fieldset"><legend>أنواع / خيارات المنتج</legend><p class="field-help">أضف لوناً أو موديل أو مقاساً. يجب أن يكون لكل نوع اسم وصورة.</p><div id="variantFields"></div><button type="button" class="secondary add-variant" id="addVariantBtn">+ إضافة نوع آخر</button></fieldset>
+          <button class="wide">نشر المنتج</button>
+        </form><p id="productMessage" class="message"></p></section>
+        <section class="card"><div class="list-title"><h2>المنتجات المنشورة</h2><span id="count">0</span></div><button class="delete clear-catalog" id="clearCatalog" hidden>حذف جميع المنتجات</button><div id="productList" class="product-list"></div></section>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../config.js"></script><script src="admin.js"></script>
+</body></html>

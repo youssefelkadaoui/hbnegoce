@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HB.negoce | عالم الرجل العصري</title>
+  <meta name="description" content="متجر HB.negoce للمنتجات الرجالية: ساعات، عطور، ملابس، أحذية وإكسسوارات مع التوصيل داخل المغرب.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container nav-wrap">
+      <a class="logo" href="#top"><img src="images/logo.jpeg" alt="HB.negoce" class="site-logo"><span>HB.<em>negoce</em><small>MEN'S EDIT</small></span></a>
+      <nav class="main-nav">
+        <a href="#products">المتجر</a>
+        <a href="#about">عنّا</a>
+        <a href="#contact">تواصل معنا</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" id="adminBtn" title="لوحة الإدارة"><i class="fa-solid fa-chart-pie"></i></button>
+        <button class="cart-btn" id="cartBtn" aria-label="فتح سلة التسوق"><i class="fa-solid fa-bag-shopping"></i><span id="cartCount">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <span class="eyebrow">CURATED FOR HIM · 2026</span>
+        <h1>جديد الأناقة الرجالية<br><strong>بمعايير استثنائية</strong></h1>
+        <p>اختيارات حديثة من الساعات والإكسسوارات والأزياء صُممت بأعلى درجات الجودة لتلائم تطلعاتك.</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#products">تسوق الآن <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+      </div>
+      <div class="hero-note"><i class="fa-solid fa-truck-fast"></i> توصيل إلى جميع مدن المغرب</div>
+    </section>
+
+    <section class="categories" id="categories" hidden></section>
+
+    <section class="products" id="products">
+      <div class="container">
+        <div class="products-head">
+          <div>
+            <span class="eyebrow dark">مختارات HB</span>
+            <h2>مجموعة الرجل الأساسية</h2>
+          </div>
+          <label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="searchInput" type="search" placeholder="ابحث عن منتج..."></label>
+        </div>
+        <div id="filters" class="filter-bar"></div>
+        <div class="products-grid" id="productsGrid"></div>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container about-inner">
+        <div>
+          <span class="eyebrow">WHY HB.NEGOCE</span>
+          <h2>لماذا تشتري من HB.negoce؟</h2>
+        </div>
+        <p>نختار كل قطعة بعناية لتصل إليك بجودة تليق بك وتجربة شراء واضحة ومريحة.</p>
+        <div class="promise">
+          <span><i class="fa-solid fa-gem"></i><strong>جودة مختارة بعناية</strong><small>منتجات نراجعها قبل عرضها</small></span>
+          <span><i class="fa-solid fa-truck-fast"></i><strong>توصيل مجاني</strong><small>إلى جميع مدن المغرب</small></span>
+          <span><i class="fa-solid fa-eye"></i><strong>حق المعاينة</strong><small>افحص طلبك قبل الدفع</small></span>
+          <span><i class="fa-solid fa-box-open"></i><strong>علبة فاخرة</strong><small>مع كل منتج تختاره</small></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="reviews" aria-labelledby="reviews-title">
+      <div class="container">
+        <div class="section-intro">
+          <span class="eyebrow dark">آراء الزبناء</span>
+          <h2 id="reviews-title">ثقة الزبناء هي أهم ما نعتز به</h2>
+          <div class="rating-summary">
+            <strong>4.9</strong>
+            <span>★★★★★</span>
+            <small>آراء حقيقية من زبناء عبر مدن المغرب</small>
+          </div>
+        </div>
+        <div class="review-grid">
+          <article class="review-card">
+            <div class="stars">★★★★★</div>
+            <p>“وصلات الساعة بسرعة وبعلبة زوينة، والجودة أحسن من اللي كنت متوقع. شكراً على التعامل المحترم.”</p>
+            <strong>يوسف · الدار البيضاء</strong>
+          </article>
+          <article class="review-card">
+            <div class="stars">★★★★★</div>
+            <p>“التوصيل مجاني والتعامل محترم، وعاينت السلعة قبل ما نخلص. نصح بيهم بزاف.”</p>
+            <strong>عبد السلام · مراكش</strong>
+          </article>
+          <article class="review-card">
+            <div class="stars">★★★★☆</div>
+            <p>“الاختيارات راقية والسعر مناسب. غادي نعاود نطلب عندهم بلا شك.”</p>
+            <strong>فاطمة الزهراء · طنجة</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="container footer-main">
+      <div class="footer-brand">
+        <a class="logo" href="#top"><img src="images/logo.jpeg" alt="HB.negoce" class="site-logo"><span>HB.<em>negoce</em></span></a>
+        <p>اختيارات رجالية راقية مع خدمة توصيل موثوقة داخل المغرب.</p>
+      </div>
+      <div class="footer-contact">
+        <h3>تواصل معنا</h3>
+        <a href="https://wa.me/212699564747" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> +212 699-564747</a>
+        <a href="mailto:Hbnegoce7@gmail.com"><i class="fa-solid fa-envelope"></i> Hbnegoce7@gmail.com</a>
+        <div class="social-links">
+          <a href="https://instagram.com/hb.negoce" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+          <a href="https://www.facebook.com/share/199ndK76cP/?mibextid=wwXIfr" target="_blank" rel="noopener"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a>
+          <a href="https://wa.me/212699564747" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>جميع الحقوق محفوظة © 2026 HB.negoce</p>
+      <span>صُنع بعناية للرجل العصري</span>
+    </div>
+  </footer>
+
+  <aside class="cart-sidebar" id="cartSidebar" aria-label="سلة التسوق">
+    <div class="side-head">
+      <h3>سلة التسوق</h3>
+      <button id="closeCart" aria-label="إغلاق السلة"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-footer">
+      <div><span>الإجمالي</span><strong id="cartTotal">0 د.م</strong></div>
+      <button id="checkoutBtn" class="btn-primary">إتمام الطلب</button>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="modal" id="checkoutModal" aria-hidden="true">
+    <div class="modal-box">
+      <button class="modal-close" data-close="checkoutModal" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+      <span class="eyebrow dark">إتمام الطلب</span>
+      <h3>بيانات التوصيل</h3>
+      <form id="checkoutForm" action="https://formsubmit.co/hbnegoce7@gmail.com" method="POST" target="formsubmitTarget">
+        <input type="hidden" name="_subject" id="formSubject" value="طلب جديد من متجر HB.negoce">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" id="formThankYouUrl" value="">
+        <input type="hidden" name="products" id="formProducts" value="">
+        <input type="hidden" name="total" id="formTotal" value="">
+        <input id="customerName" name="name" placeholder="الاسم الكامل" required>
+        <input id="customerPhone" name="phone" type="tel" placeholder="رقم الهاتف" inputmode="numeric" required>
+        <input id="customerAddress" name="address" placeholder="العنوان والمدينة" required>
+        <button class="btn-primary">تأكيد وإرسال الطلب</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <iframe name="formsubmitTarget" title="إرسال الطلب" hidden></iframe>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="data.js"></script>
+  <script src="catalog-sync.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
