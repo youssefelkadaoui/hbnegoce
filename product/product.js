@@ -247,32 +247,21 @@ checkoutForm.addEventListener('submit', async (e) => {
 
   const submitButton = document.getElementById('submitBtn');
   submitButton.disabled = true;
-  submitButton.textContent = 'جاري الإرسال...';
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20000);
-  try {
-    await fetch(window.HB_ORDER_ENDPOINT, {
-      method: 'POST',
-      mode: 'no-cors',
-      signal: controller.signal,
-      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-      body: JSON.stringify({ name, phone, address })
-    });
-    localStorage.setItem('hb_last_order', JSON.stringify(orderData));
-    localStorage.setItem('hb_pending_purchase', orderData.orderId);
-    cart = [];
-    saveCart();
-    closeCheckoutModal();
-    closeCartSidebar();
-    window.location.assign('../thank-you/thank-you.html');
-  } catch (error) {
-    console.error('Order submission failed:', error);
-    submitButton.disabled = false;
-    submitButton.textContent = 'تأكيد الطلب';
-    showToast(error.name === 'AbortError' ? 'انتهت مهلة الإرسال. تحقق من نشر خدمة الطلبات ثم حاول مجدداً.' : 'تعذر إرسال الطلب. تحقق من الاتصال وحاول مجدداً.');
-  } finally {
-    clearTimeout(timeout);
-  }
+  submitButton.textContent = 'تم استلام طلبك';
+  void fetch(window.HB_ORDER_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    keepalive: true,
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+    body: JSON.stringify({ name, phone, address })
+  }).catch(error => console.error('Order submission failed:', error));
+  localStorage.setItem('hb_last_order', JSON.stringify(orderData));
+  localStorage.setItem('hb_pending_purchase', orderData.orderId);
+  cart = [];
+  saveCart();
+  closeCheckoutModal();
+  closeCartSidebar();
+  window.location.assign('../thank-you/thank-you.html');
 });
 
 document.getElementById('addAnotherProduct')?.addEventListener('click', () => {
