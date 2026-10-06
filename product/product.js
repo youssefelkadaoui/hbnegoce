@@ -253,7 +253,7 @@ checkoutForm.addEventListener('submit', async (e) => {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-      body: JSON.stringify({ name, phone, address })
+      body: JSON.stringify({ name, phone, address, imageLinks: [...new Set(orderData.items.map(item => item.image).filter(Boolean))].join('\n') })
     });
     localStorage.setItem('hb_last_order', JSON.stringify(orderData));
     localStorage.setItem('hb_pending_purchase', orderData.orderId);
