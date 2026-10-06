@@ -2,16 +2,28 @@
 const catalogSeed = [];
 const catalogStorageVersion = 'admin-only-v1';
 
-function normalizeProductImageUrl(value) {
-  return window.HBImages.normalize(value);
+function normalizeDriveImage(value) {
+  const source = String(value || '').trim();
+  if (!source) return '';
+  const driveId = source.match(/(?:\/file\/d\/|\/d\/|[?&]id=)([^/?&]+)/i)?.[1];
+  if (driveId && /(?:drive\.google\.com|docs\.google\.com|googleusercontent\.com)/i.test(source)) {
+    return `https://drive.google.com/uc?export=view&id=${encodeURIComponent(driveId)}`;
+  }
+  if (/^https?:\/\//i.test(source)) return source;
+  return `https://drive.google.com/uc?export=view&id=${encodeURIComponent(source)}`;
 }
 
-function normalizeCatalogProduct(product) {
-  const normalized = { ...product };
-  normalized.image = normalizeProductImageUrl(normalized.image);
-  if (Array.isArray(normalized.images)) normalized.images = normalized.images.map(normalizeProductImageUrl);
-  if (Array.isArray(normalized.variants)) normalized.variants = normalized.variants.map(variant => ({ ...variant, image: normalizeProductImageUrl(variant.image) }));
-  return normalized;
+function normalizeProductImages(product) {
+  const images = Array.isArray(product.images) ? product.images : [];
+  const variants = Array.isArray(product.variants) ? product.variants : [];
+  return {
+    ...product,
+    image: normalizeDriveImage(product.image || images[0] || variants[0]?.image),
+    ...(Array.isArray(product.images) ? { images: images.map(normalizeDriveImage) } : {}),
+    ...(Array.isArray(product.variants)
+      ? { variants: variants.map(variant => ({ ...variant, image: normalizeDriveImage(variant.image) })) }
+      : {})
+  };
 }
 
 function getCatalogProducts() {
@@ -23,7 +35,7 @@ function getCatalogProducts() {
       localStorage.setItem('hb_catalog_storage_version', catalogStorageVersion);
     }
     const remoteCatalog = JSON.parse(localStorage.getItem('hb_remote_catalog'));
-    return Array.isArray(remoteCatalog) ? remoteCatalog.map(normalizeCatalogProduct) : [];
+    return Array.isArray(remoteCatalog) ? remoteCatalog.map(normalizeProductImages) : [];
   } catch (_) {
     return [];
   }
