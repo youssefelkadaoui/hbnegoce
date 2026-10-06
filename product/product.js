@@ -247,27 +247,27 @@ checkoutForm.addEventListener('submit', async (e) => {
 
   const submitButton = document.getElementById('submitBtn');
   submitButton.disabled = true;
-  submitButton.textContent = 'جاري الإرسال...';
-  try {
-    await fetch(window.HB_ORDER_ENDPOINT, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-      body: JSON.stringify({ name, phone, address, imageLinks: [...new Set(orderData.items.map(item => item.image).filter(Boolean))].join('\n') })
-    });
-    localStorage.setItem('hb_last_order', JSON.stringify(orderData));
-    localStorage.setItem('hb_pending_purchase', orderData.orderId);
-    cart = [];
-    saveCart();
-    closeCheckoutModal();
-    closeCartSidebar();
-    window.location.assign('../thank-you/thank-you.html');
-  } catch (error) {
-    console.error('Order submission failed:', error);
-    submitButton.disabled = false;
-    submitButton.textContent = 'تأكيد الطلب';
-    showToast('تعذر إرسال الطلب. تحقق من الاتصال وحاول مجدداً.');
-  }
+  submitButton.textContent = 'تم استلام طلبك';
+  void fetch(window.HB_ORDER_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    keepalive: true,
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+    body: JSON.stringify({
+      name,
+      phone,
+      address,
+      images: cart.map(item => ({ name: item.name, image: item.image })),
+      imageLinks: cart.map(item => item.image).filter(Boolean).join('\n')
+    })
+  }).catch(error => console.error('Order submission failed:', error));
+  localStorage.setItem('hb_last_order', JSON.stringify(orderData));
+  localStorage.setItem('hb_pending_purchase', orderData.orderId);
+  cart = [];
+  saveCart();
+  closeCheckoutModal();
+  closeCartSidebar();
+  window.location.assign('../thank-you/thank-you.html');
 });
 
 document.getElementById('addAnotherProduct')?.addEventListener('click', () => {
@@ -317,7 +317,7 @@ try {
     <div class="pd-layout">
       <div class="pd-gallery">
         <div class="pd-main-image">
-          <img id="mainImage" src="${allImages[0] || variants[0].image}" alt="${product.name}" />
+          <img id="mainImage" src="${variants[0].image}" alt="${product.name}" />
         </div>
         <div class="pd-thumbnails">
           ${allImages.map((img, i) => `<div class="pd-thumb ${i === 0 ? 'active' : ''}" data-index="${i}"><img src="${img}" alt="${product.name}" /></div>`).join('')}
