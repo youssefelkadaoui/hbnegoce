@@ -4,9 +4,18 @@
   const dashboard = document.getElementById('dashboard');
   const productMessage = document.getElementById('productMessage');
   const variantFields = document.getElementById('variantFields');
+
   const safe = value => String(value || '').replace(/[&<>'"]/g, char => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' })[char]);
-  const imageUrl = value => window.HBImages.normalize(value);
   const setMessage = (text, ok = false) => { productMessage.textContent = text; productMessage.style.color = ok ? '#257344' : '#aa4038'; };
+  const imageUrl = value => {
+    const source = String(value || '').trim();
+    const driveId = source.match(/(?:\/file\/d\/|\/d\/|[?&]id=)([^/?&]+)/i)?.[1];
+    if (driveId && /(?:drive\.google\.com|docs\.google\.com|googleusercontent\.com)/i.test(source)) {
+      return `https://drive.google.com/uc?export=view&id=${encodeURIComponent(driveId)}`;
+    }
+    if (/^https?:\/\//i.test(source)) return source;
+    return `https://drive.google.com/uc?export=view&id=${encodeURIComponent(source)}`;
+  };
 
   if (!config.url || !config.anonKey) {
     loadingView.innerHTML = '<div class="loader" aria-hidden="true"></div><p class="kicker">تنبيه</p><h1>إعدادات لوحة الإدارة</h1><p class="muted">أكمل بيانات Supabase في ملف config.js أولاً، واتبع SETUP_AR.md.</p>';
@@ -19,7 +28,8 @@
   function addVariant(values = {}) {
     const row = document.createElement('div');
     row.className = 'variant-row';
-    row.innerHTML = `<label>اسم النوع<input class="variant-name" placeholder="مثال: أسود / مقاس L" value="${safe(values.name)}" required></label><label>رابط صورة النوع<input class="variant-image" type="text" placeholder="رابط مشاركة Drive أو معرّف الصورة" value="${safe(values.image)}" required></label><button type="button" class="delete remove-variant">حذف</button>`;
+    const imageValue = values.image && values.image.startsWith('https://lh3.googleusercontent.com/d/') ? values.image.slice('https://lh3.googleusercontent.com/d/'.length) : values.image;
+    row.innerHTML = `<label>اسم النوع<input class="variant-name" placeholder="مثال: أسود / مقاس L" value="${safe(values.name)}" required></label><label>معرّف الصورة (ID)<input class="variant-image" type="text" placeholder="الصق ID الصورة هنا" value="${safe(imageValue)}" required><small class="image-prefix" dir="ltr">https://lh3.googleusercontent.com/d/ + ID</small></label><button type="button" class="delete remove-variant">حذف</button>`;
     variantFields.appendChild(row);
   }
 
@@ -36,7 +46,7 @@
     document.getElementById('count').textContent = catalog.length;
     document.getElementById('productList').innerHTML = catalog.length ? catalog.map(row => {
       const p = row.payload || {}; const stock = p.stockStatus === 'limited' ? 'كمية محدودة' : 'كمية غير محدودة';
-      return `<article class="item"><img src="${safe(imageUrl(p.image))}" alt=""><div><strong>${safe(p.name)}</strong><small>${safe(p.category)} · ${safe(p.price)} د.م · ${stock}</small></div><button class="delete" data-id="${safe(row.id)}">حذف</button></article>`;
+      return `<article class="item"><img src="${safe(p.image)}" alt=""><div><strong>${safe(p.name)}</strong><small>${safe(p.category)} · ${safe(p.price)} د.م · ${stock}</small></div><button class="delete" data-id="${safe(row.id)}">حذف</button></article>`;
     }).join('') : '<p class="muted">لا توجد منتجات منشورة بعد.</p>';
   }
 
