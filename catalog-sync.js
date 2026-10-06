@@ -9,7 +9,7 @@
   client.from('products').select('payload').order('created_at', { ascending: false })
     .then(({ data, error }) => {
       if (error) throw error;
-      const catalog = (data || []).map(row => row.payload).filter(Boolean);
+      const catalog = (data || []).map(row => row.payload).filter(Boolean).map(normalizeProductImages);
       localStorage.setItem('hb_remote_catalog', JSON.stringify(catalog));
       products = catalog;
       window.dispatchEvent(new CustomEvent('hb-catalog-updated', { detail: catalog }));
